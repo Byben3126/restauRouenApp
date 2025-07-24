@@ -1,0 +1,57 @@
+{
+  "expo": {
+    "name": "mintedApp",
+    "slug": "mintedApp",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/robot_adventure.png",
+    "scheme": "mintedApp",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "config": {
+        "googleMapsApiKey": "AIzaSyBA_2XpvqVm6w1OhdoYNgwzxcPjKP2uas8",
+        "googleMaps": {
+          "apiKey": "AIzaSyBA_2XpvqVm6w1OhdoYNgwzxcPjKP2uas8"
+        }
+      },
+      
+      "entitlements": {
+        "com.apple.developer.in-app-payments": [
+          "merchant.com.minted"
+        ]
+      },
+      "bundleIdentifier": "com.anonymous.mintedApp",
+      "appleTeamId": "66GCK4QW23"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/robot_adventure.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.anonymous.mintedApp"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/robot_adventure.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/robot_adventure.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
+        }
+      ],
+      "expo-secure-store"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

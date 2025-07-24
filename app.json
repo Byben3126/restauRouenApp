@@ -1,0 +1,102 @@
+{
+  "expo": {
+    "name": "RestoRouen",
+    "slug": "RestoRouen",
+    "version": "1.0.1",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon_app.png",
+    "scheme": "restorouen",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "buildNumber": "2",
+      "supportsTablet": true,
+      "config": {
+        "googleMapsApiKey": "AIzaSyBA_2XpvqVm6w1OhdoYNgwzxcPjKP2uas8"
+      },
+      "entitlements": {
+        "aps-environment": "production"
+      },
+      "bundleIdentifier": "com.restorouen.app",
+      "appleTeamId": "DC49565NCD",
+      "infoPlist": {
+        "UIBackgroundModes": ["remote-notification"],
+        "FirebaseAppDelegateProxyEnabled": false,
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSCameraUsageDescription": "Cette app utilise l'appareil photo pour scanner des codes-barres",
+        "NSLocationWhenInUseUsageDescription": "Nous avons besoin de votre localisation pour afficher votre position sur la carte.",
+        "NSLocationAlwaysUsageDescription": "Nous avons besoin de votre localisation pour fournir une expérience optimale."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/icon_app.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.restorouen.app"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/icon_app.png"
+    },
+    "plugins": [
+      [
+        "react-native-maps",
+        {
+          "iosGoogleMapsApiKey": "AIzaSyBA_2XpvqVm6w1OhdoYNgwzxcPjKP2uas8",
+          "androidGoogleMapsApiKey": "AIzaSyBA_2XpvqVm6w1OhdoYNgwzxcPjKP2uas8"
+        }
+      ],
+      "expo-router",
+      [
+        "expo-maps",
+        {
+          "requestLocationPermission": true,
+          "locationPermission": "Allow $(PRODUCT_NAME) to use your location"
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash_screen.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#99314d"
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+        }
+      ],
+      "expo-secure-store",
+      [
+        "onesignal-expo-plugin",
+        {
+          "mode": "development"
+        }
+      ],
+      "expo-font",
+      "expo-maps"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+
+      "oneSignalAppId": "30ed059c-0092-4d66-8fa5-6d79c481e8ba"
+    },
+    "owner": "restorouen"
+  }
+}

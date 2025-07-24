@@ -1,0 +1,98 @@
+{
+  "expo": {
+    "name": "mintedApp",
+    "slug": "mintedApp",
+    "version": "1.0.1",
+    "orientation": "portrait",
+    "icon": "./assets/images/robot_adventure.png",
+    "scheme": "mintedApp",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "buildNumber": "2",
+      "supportsTablet": true,
+      "config": {
+        "googleMapsApiKey": "AIzaSyBA_2XpvqVm6w1OhdoYNgwzxcPjKP2uas8",
+        "googleMaps": {
+          "apiKey": "AIzaSyBA_2XpvqVm6w1OhdoYNgwzxcPjKP2uas8"
+        }
+      },
+      "entitlements": {
+        "aps-environment": "production",
+        "com.apple.developer.in-app-payments": [
+          "merchant.com.mintedApp"
+        ]
+      },
+      "bundleIdentifier": "com.anonymous.mintedApp",
+      "merchantId": "merchant.com.mintedApp",
+      "appleTeamId": "JJ3YV64C3G",
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "remote-notification"
+        ],
+        "FirebaseAppDelegateProxyEnabled": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/robot_adventure.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.anonymous.mintedApp"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/robot_adventure.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/robot_adventure.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
+        }
+      ],
+      "expo-secure-store",
+      [
+        "onesignal-expo-plugin",
+        {
+          "mode": "development"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "build": {
+          "experimental": {
+            "ios": {
+              "appExtensions": [
+                {
+                  "targetName": "OneSignalNotificationServiceExtension",
+                  "bundleIdentifier": "com.anonymous.mintedApp.OneSignalNotificationServiceExtension",
+                  "entitlements": {
+                    "com.apple.security.application-groups": [
+                      "group.com.anonymous.mintedApp.onesignal"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "projectId": "f26b3130-65e0-4a72-aec5-b0efe3b5aac7"
+      },
+      "oneSignalAppId": "84e3ed63-e34a-48d7-88d3-39a2f8cee4cf"
+    },
+    "owner": "byben"
+  }
+}
