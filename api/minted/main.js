@@ -6,7 +6,7 @@ import { set_user } from '@/store/slices/user';
 import { check_subscription_from_token } from '@/store/slices/subscription';
 
 const api = axios.create({
-  baseURL: 'https://rr.clement-guilloux.fr/api',//'https://allegedly-advanced-bedbug.ngrok-free.app', //'http://MacBook-Pro-de-Clement.local:8000',
+  baseURL: process.env.EXPO_PUBLIC_API_URL,//'https://allegedly-advanced-bedbug.ngrok-free.app', //'http://MacBook-Pro-de-Clement.local:8000',
   timeout: 60000,
 });
 

@@ -86,6 +86,18 @@ const ImageCarousel = ({borderRadius = 20, gap = 10, paddingHorizontal = 0, imag
     });
 
     if (!result.canceled) {
+
+      const MAX_SIZE = 20 * 1024 * 1024; // 20 Mo en octets
+      for (const asset of result.assets) {
+        if (asset.fileSize && asset.fileSize > MAX_SIZE) {
+          newNotification({
+            title: "Image trop volumineuse",
+            subTitle: "La taille maximale autorisée est de 20 Mo.",
+          });
+          return;
+        }
+      }
+
       const files = result.assets.map((asset, idx) => ({
         uri: asset.uri,
         name: asset.fileName || `image_${Date.now()}_${idx}.jpg`,
@@ -104,20 +116,6 @@ const ImageCarousel = ({borderRadius = 20, gap = 10, paddingHorizontal = 0, imag
           })
       }
       setLoader(false)
-
-      // setImageSizes([
-      //   ...result.assets.map(asset => {
-      //     const ratio = asset.width / asset.height
-      //     return {
-      //       id: asset.uri, 
-      //       uri: asset.uri,
-      //       width: imageHeight * ratio, 
-      //       height: imageHeight 
-      //     }
-      // }),
-      //   ...imageSizes
-      // ])
-      //setImage(result.assets[0].uri);
     }
   };
 

@@ -3,7 +3,6 @@ import React, { ReactNode, useEffect }  from 'react'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Container, Button, Text } from '@/components/atoms';
-import { loginAccountVinted } from '@/api/vinted/auth';
 
 type RootStackParamList = {
     Welcome: undefined;
@@ -40,7 +39,7 @@ const Welcome: React.FC<WelcomeProps> = ({ navigation }) => {
                         </Container.RowCenterY>
                         <Text.SubTitle fontSize={33} lineHeight={33} letterSpacing={0.6}>Bienvenue à toi!</Text.SubTitle>
                     </Container.ColumnCenterX>
-                    <Text.Paragraphe color='#111132' fontSize={16} letterSpacing={0.6} lineHeight={21} textAlign="center">{'Sois le premier sur les offres Vinted \n grâce à notre outils performant'}</Text.Paragraphe>
+                    <Text.Paragraphe color='#111132' fontSize={16} letterSpacing={0.6} lineHeight={21} textAlign="center">{'Régale-toi, et regarde tes points grimper vers tes prochaines récompenses.'}</Text.Paragraphe>
                 </Container.ColumnCenter>
                 <Container.ColumnCenterX style={styles.containerButtons} gap={10}>
                     <TouchableOpacity activeOpacity={0.6} onPress={() => navigation.navigate('Register')} style={{width:'100%'}}>

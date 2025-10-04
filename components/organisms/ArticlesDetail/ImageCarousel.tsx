@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { FlatList, Image, View, Dimensions } from 'react-native'
+import { FlatList, Image, View, Dimensions, TouchableOpacity } from 'react-native'
 import { Float } from 'react-native/Libraries/Types/CodegenTypes'
-
+import ImageView from "react-native-image-viewing";
 
 interface ImageCarouselProps {
   images?: {
@@ -32,6 +32,8 @@ const ImageCarousel = ({
   imageHeight = 200,
 } : ImageCarouselProps) => {
   const [imageSizes, setImageSizes] = useState<ImageSized[]>([])
+  const [visible, setIsVisible] = useState(false);
+  const [imageIndex, setImageIndex] = useState<number>(0);
 
   useEffect(() => {
     const loadSizes = async () => {
@@ -51,20 +53,31 @@ const ImageCarousel = ({
   }, [images])
 
   return (
-    <FlatList
+  <>
+   <FlatList
       data={imageSizes}
       keyExtractor={(item, index) => index.toString()}
       horizontal
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{ gap, paddingHorizontal }}
-      renderItem={({ item }) => (
-        <Image
-          source={{ uri: item.uri }}
-          style={{ width: item.width, height: item.height, borderRadius}}
-          resizeMode="cover"
-        />
+      renderItem={({ item, index }) => (
+        <TouchableOpacity onPress={() => {setImageIndex(index); setIsVisible(true) }}>
+          <Image
+            source={{ uri: item.uri }}
+            style={{ width: item.width, height: item.height, borderRadius}}
+            resizeMode="cover"
+          />
+        </TouchableOpacity>
       )}
     />
+    <ImageView
+      images={images}
+      imageIndex={imageIndex}
+      visible={visible}
+      onRequestClose={() => setIsVisible(false)}
+    />
+  </>
+   
   )
 }
 

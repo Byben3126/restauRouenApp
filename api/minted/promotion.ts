@@ -45,3 +45,8 @@ export const get_all_promotions_for_user = async (page): Promise<AxiosResponse<P
     return await apiRequest('GET', `/promotions/me`, null, {page}, true);
 };
 
+export const deletePromotion = async (promotionId: number): Promise<AxiosResponse<{ ok: boolean }>> => {
+    return await apiRequest('DELETE', `/promotions/${promotionId}`, null, null, true);
+};
+
+

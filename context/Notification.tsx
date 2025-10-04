@@ -116,6 +116,7 @@ const NotificationProvider: React.FC<NotificationProviderProps> = ({ children })
       switch (notification.additionalData.type) {
         case 'new_promotion':
         case 'new_reward':
+        case 'new_point':
           if (notification.additionalData?.restaurant_id) {
             console.log('clemclem651')
             
@@ -377,6 +378,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10
   },
 })
-
 
 

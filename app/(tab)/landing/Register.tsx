@@ -10,6 +10,7 @@ import { createAccount } from '@/api/minted/auth'
 import { AxiosError } from 'axios';
 import { useNotification } from '@/context/Notification';
 
+
 type RootStackParamList = {
   Welcome: undefined;
   Login: undefined;
@@ -85,6 +86,9 @@ const Register: React.FC<RegisterProps> = ({navigation}) => {
 
   },[lastName , firstName, email, password, isAcceptedRules])
   
+  const handlerSetEmail = (text:string) => {
+    setEmail(text.trim().toLowerCase());
+  }
   return (
     
       <Container.DismissKeyboard>
@@ -124,7 +128,7 @@ const Register: React.FC<RegisterProps> = ({navigation}) => {
 
                           <Input.MainInput 
                             value={email} 
-                            onChangeText={setEmail} 
+                            onChangeText={handlerSetEmail} 
                             inputStyle={styles.inputStyle} 
                             placeholder={'Entrez votre email'} 
                             placeholderTextColor={"#B8B8BC"} 
@@ -180,6 +184,8 @@ const Register: React.FC<RegisterProps> = ({navigation}) => {
               </Container.Column>
             </KeyboardAvoidingView>
           </SafeAreaView>
+
+          
       </Container.DismissKeyboard>
     
   )

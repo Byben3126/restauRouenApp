@@ -8,19 +8,23 @@ import Profil from '@/components/organisms/Pages/Profil';
 import AddReward from '@/components/organisms/Pages/AddReward';
 import NewOffer from '@/components/organisms/Pages/NewOffer';
 import { getRewards, deleteReward } from '@/api/minted/reward';
+import { get_restaurant_promotions, deletePromotion } from '@/api/minted/promotion';
+import * as DropdownMenu from 'zeego/dropdown-menu';
 import { useAuth } from '@/context/Auth';
 import { useRouter } from "expo-router";
 import * as Types from '@/types'; 
 import { useSelector } from 'react-redux';
 import { useLoader } from '@/context/Loader';
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export type RootStackParamList = {
     Settings: undefined;
     Profil: undefined;
     AddReward: undefined;
-    NewOffer: { userId?: number };
+    NewOffer: { userId?: number } | undefined;
     Offers: undefined;
+    Rewards: undefined;
 };
 
 
@@ -67,13 +71,13 @@ const SettingsScreen = ({ navigation, route }: SettingsScreenProps) => {
                         <Icon.RR name={"arrow_right"} size={14} lineHeight={14}/>
                     </Container.RowCenterY>
 
-                    <TouchableOpacity onPress={() => navigation.navigate('NewOffer',{ userId: undefined})}>
+                    <TouchableOpacity onPress={() => navigation.navigate('Offers')}>
                         <Container.RowCenterY style={styles.item} gap={5}>
-                            <Text.SubTitle fontSize={17} lineHeight={17}>Ajouter une offre</Text.SubTitle>
+                            <Text.SubTitle fontSize={17} lineHeight={17}>Gestion des offres</Text.SubTitle>
                             <Icon.RR name={"arrow_right"} size={14} lineHeight={14}/>
                         </Container.RowCenterY>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate('Offers')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('Rewards')}>
                         <Container.RowCenterY style={styles.item} gap={5}>
                             <Text.SubTitle fontSize={17} lineHeight={17}>Gestion des récompense</Text.SubTitle>
                             <Icon.RR name={"arrow_right"} size={14} lineHeight={14}/>
@@ -103,7 +107,7 @@ const AddRewardScreen = ({ navigation, route }: AddRewardScreenProps) => {
   )
 }
 
-const OffersScreen = ({ navigation, route }: NativeStackScreenProps<RootStackParamList, 'Offers'>) => {
+const RewardsScreen = ({ navigation, route }: NativeStackScreenProps<RootStackParamList, 'Rewards'>) => {
   const restaurantData = useSelector((state:Types.Store) => state.myRestaurant.restaurantData);
 
   
@@ -112,8 +116,6 @@ const OffersScreen = ({ navigation, route }: NativeStackScreenProps<RootStackPar
   //context
   const { setLoader } = useLoader();
 
-
-  
   const fetchRewards = async () => {
     if (!restaurantData) return
     try {
@@ -135,19 +137,14 @@ const OffersScreen = ({ navigation, route }: NativeStackScreenProps<RootStackPar
       } catch (error) {
         console.log('Error deleting reward:', error);
       }
-      navigation.navigate('Offers')
+      navigation.navigate('Rewards')
       setLoader(false)
   },[navigation])
   
-
-
-
   const renderItem = useCallback(({item:reward}:{item:Types.RewardRead})=>{
     if (reward.id === -1) return <View style={{flexGrow:1}}/>
     return <Card.CardReward reward={reward} cbButton={deleteRewardHandler} textButton={'Supprimer'}/>
   },[])
-
-
 
   useEffect(() => {
     fetchRewards()
@@ -156,7 +153,6 @@ const OffersScreen = ({ navigation, route }: NativeStackScreenProps<RootStackPar
   if (!rewards) {
     return <ActivityIndicator size={'small'}/>
   }
-
 
   return (
 
@@ -205,6 +201,122 @@ const OffersScreen = ({ navigation, route }: NativeStackScreenProps<RootStackPar
 
 }
 
+const OffersScreen = ({ navigation, route }: NativeStackScreenProps<RootStackParamList, 'Offers'>) => {
+  const restaurantData = useSelector((state:Types.Store) => state.myRestaurant.restaurantData);
+  
+  const [offers, setOffers] = React.useState<Types.PromotionRead[]|null>(null);
+
+  //context
+  const { setLoader } = useLoader();
+
+  const fetchOffers = async () => {
+    if (!restaurantData) return
+    try {
+      const {data} = await get_restaurant_promotions(restaurantData.id)
+      setOffers(data)
+    } catch (error) {
+      setOffers([])
+    }
+  };
+
+  const deleteOfferHandler = useCallback(async (promotion:Types.PromotionRead)=>{
+      console.log('deleteOfferHandler')
+      setLoader(true)
+      navigation.goBack()
+      try {
+        await deletePromotion(promotion.id)
+      } catch (error) {
+        console.log('Error deleting offer:', error);
+      }
+      navigation.navigate('Offers')
+      setLoader(false)
+  },[navigation])
+  
+  const renderItem = useCallback(({item:promotion}:{item:Types.PromotionRead})=>{
+    return <DropdownMenu.Root>
+      <DropdownMenu.Trigger>
+        <View style={OffersStyles.ticket}>
+          <Card.Ticket promotion={promotion}/>
+        </View>
+      </DropdownMenu.Trigger>
+
+      <DropdownMenu.Content>
+          <DropdownMenu.Item key="remove" onSelect={()=>deleteOfferHandler(promotion)}>
+            <DropdownMenu.ItemTitle>Retirer</DropdownMenu.ItemTitle>
+            <DropdownMenu.ItemIcon
+                ios={{ 
+                    name: 'trash',
+                    pointSize: 15,
+                    weight: 'semibold',
+                    scale: 'medium',
+                    hierarchicalColor: '#FF6868',
+                }}
+            />
+          </DropdownMenu.Item>
+
+      </DropdownMenu.Content>
+    </DropdownMenu.Root>
+
+       
+    
+  },[])
+
+  useEffect(() => {
+    fetchOffers()
+  }, []);
+
+  if (!offers) {
+    return <ActivityIndicator size={'small'}/>
+  }
+
+  return (
+
+    <Container.Column flexGrow={1}>
+      <Container.View>
+        <Text.SubTitle fontSize={24} lineHeight={24} marginBottom={10}>Offres</Text.SubTitle>
+      </Container.View>
+    
+      <Container.Column flexGrow={1}>
+        { offers.length &&
+          <FlatList
+            data={offers}
+            renderItem={renderItem}
+            keyExtractor={(reward) => String(reward.id)}
+            numColumns={2}
+            contentContainerStyle={OffersStyles.listContainer}
+            columnWrapperStyle={OffersStyles.columnWrapperStyle}
+            style={OffersStyles.flatList}
+            ListFooterComponent={<View style={{ paddingBottom: 5 }}/>} 
+            scrollEnabled={false}
+          />  
+          ||
+          <Container.ColumnCenter style={{paddingVertical:30}}>
+            <Text.Paragraphe fontFamily='Urbanist-Medium' fontSize={14} lineHeight={14}>Aucune offres disponible</Text.Paragraphe>
+          </Container.ColumnCenter>
+      }
+      </Container.Column>
+      <Container.View>
+        <TouchableOpacity onPress={()=>{
+          navigation.goBack()
+          setTimeout(() => {
+            navigation.navigate('NewOffer')
+          }, 100);
+        }} 
+          style={{width:'100%'}}
+        >
+            <Button.ButtonLandingPage size={1}>
+                Nouvelle offre
+            </Button.ButtonLandingPage>
+        </TouchableOpacity>
+        <SafeAreaView/>
+      </Container.View>
+    </Container.Column>
+   
+  )
+
+}
+
+
 
 const SettingsStack = () => {
 
@@ -249,6 +361,22 @@ const SettingsStack = () => {
               ),
             })}
           />  
+          <Stack.Screen 
+            name="Rewards" 
+            component={RewardsScreen} 
+            options={({ navigation }) => ({
+              headerShown: true,
+              headerTransparent: false,
+              headerTitle: '',
+              sheetAllowedDetents: [0.99],
+              presentation: 'pageSheet',
+        
+              headerLeft: () => (
+                <Header.HeaderStack.Left navigation={navigation}/>
+              ),
+            })}
+          />  
+
           <Stack.Screen 
             name="Offers" 
             component={OffersScreen} 
@@ -316,5 +444,16 @@ const OffersStyles = StyleSheet.create({
   },
   columnWrapperStyle: {
     gap: 20
-  }
+  },
+  ticket:{
+    shadowColor: '#000',
+    shadowOffset: {
+        width: 0,
+        height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    // Ombre pour Android
+    elevation: 4,
+  },
 })

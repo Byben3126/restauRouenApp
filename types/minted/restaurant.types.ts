@@ -11,3 +11,11 @@ export interface RestaurantData {
     images: string
 }
 
+export interface RestaurantUpdate {
+    name?: string
+    latitude?: Float
+    longitude?: Float
+    country?: string
+    city?: string
+    googleMyBuisnessLink?: string
+}

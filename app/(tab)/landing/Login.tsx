@@ -34,6 +34,10 @@ const Login: React.FC<LoginProps> = ({navigation}) => {
   const {login} = useAuth()
   const { newNotification } = useNotification()
 
+  const handlerSetEmail = (text:string) => {
+    setEmail(text.trim().toLowerCase());
+  }
+
   const pressLogin = useCallback(async () => {
     Keyboard.dismiss()
     if (!email.length || !password.length || isLoading) return
@@ -77,7 +81,7 @@ const Login: React.FC<LoginProps> = ({navigation}) => {
                         placeholder={'Entrez votre email'} 
                         placeholderTextColor={"#B8B8BC"} 
                         style={styles.containerInput}
-                        onChangeText={setEmail}
+                        onChangeText={handlerSetEmail}
                         value={email}
                         keyboardType="email-address"
                         autoCapitalize="none"

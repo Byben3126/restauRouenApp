@@ -34,14 +34,16 @@ export const usePushNotifications = ({userId, clickNotification}: UsePushNotific
       console.log("initOneSingal", userId)
       const oneSignalAppId = Constants?.expoConfig?.extra?.oneSignalAppId;
       if (oneSignalAppId) {
+        console.log("OneSignal AppId", oneSignalAppId)
         OneSignal.Debug.setLogLevel(LogLevel.Verbose);
         OneSignal.initialize(oneSignalAppId)
 
         OneSignal.Notifications.addEventListener('click', clickNativeNotification);
         OneSignal.Notifications.addEventListener('foregroundWillDisplay', foregroundWillDisplay)
+
         OneSignal.Notifications.addEventListener('permissionChange', async () => {
           const newId = await OneSignal.User.getOnesignalId();
-          console.log('OneSignal permissionChange', newId);
+          console.log('OneSignal permissionChange', newId, userId);
           if (newId) OneSignal.login(String(userId))
         });
 
@@ -49,13 +51,11 @@ export const usePushNotifications = ({userId, clickNotification}: UsePushNotific
 
         
      
-        console.log("OneSignal Id1")
+        // console.log("OneSignal Id1")
         onesignalId.current = await OneSignal.User.getOnesignalId()
-        console.log("OneSignal Id2", onesignalId.current)
-       
-
-        if (onesignalId.current) {
-          console.log('OneSignal login', userId)
+        console.log("OneSignal Id22", onesignalId.current, userId)
+        if (onesignalId.current && userId) {
+          console.log('OneSignal login', userId, onesignalId.current)
           OneSignal.login(String(userId))
         }
       }

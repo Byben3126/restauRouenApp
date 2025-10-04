@@ -41,14 +41,14 @@ const CardUser = ({newOfferCb, givePointCb, customer}: CardUserProps) => {
         </Container.RowCenterY>
         <Container.Column gap={5}>
             <Container.RowCenterY gap={8}>
-                <Text.Paragraphe fontFamily='Urbanist-Medium' fontSize={14} lineHeight={17}>Last Visite: {formatDate(customer.last_visit_date)}</Text.Paragraphe>
+                <Text.Paragraphe fontFamily='Urbanist-Medium' fontSize={14} lineHeight={17}>Dernière visite: {formatDate(customer.last_visit_date)}</Text.Paragraphe>
             </Container.RowCenterY>
-            {customer.last_points_gained?.created_at && <Container.RowCenterY gap={8}>
-                <Text.Paragraphe fontFamily='Urbanist-Medium' fontSize={14} lineHeight={17}>Last points awarded: {formatDate(customer.last_points_gained?.created_at)}</Text.Paragraphe>
-            </Container.RowCenterY>}
+            {/* {customer.last_points_gained?.created_at && <Container.RowCenterY gap={8}>
+                <Text.Paragraphe fontFamily='Urbanist-Medium' fontSize={14} lineHeight={17}>Dernier points: {formatDate(customer.last_points_gained?.created_at)}</Text.Paragraphe>
+            </Container.RowCenterY>} */}
         </Container.Column>
         <Container.Column gap={4}>
-            <Text.Title fontSize={16} lineHeight={27}>Goal progress</Text.Title>
+            <Text.Title fontSize={16} lineHeight={27}>Progression</Text.Title>
             <Text.Paragraphe fontFamily='Urbanist-Medium' fontSize={14} lineHeight={14}>{customer?.user?.identity?.first_name} a reçu au total {customer.total_points_gained} point{customer.total_points_gained ? 's' : ''}</Text.Paragraphe>
             <ProgressBar
                 progress={customer.points}
@@ -58,13 +58,13 @@ const CardUser = ({newOfferCb, givePointCb, customer}: CardUserProps) => {
         <Container.Row gap={10}>
             {newOfferCb && 
                 <TouchableOpacity onPress={newOfferCb} style={styles.containerButton}>
-                    <Button.ButtonRadiusOutline styleContainer={styles.button} styleSizeCustom={styles.styleSizeCustomButton}>Send Offer</Button.ButtonRadiusOutline>
+                    <Button.ButtonRadiusOutline styleContainer={styles.button} styleSizeCustom={styles.styleSizeCustomButton}>Nouvelle offre</Button.ButtonRadiusOutline>
                 </TouchableOpacity>
             }
 
             {givePointCb && 
                 <TouchableOpacity onPress={givePointCb} style={styles.containerButton}>
-                    <Button.ButtonRadius styleContainer={styles.button} styleSizeCustom={styles.styleSizeCustomButton}>Give points</Button.ButtonRadius>
+                    <Button.ButtonRadius styleContainer={styles.button} styleSizeCustom={styles.styleSizeCustomButton}>Ajouter points</Button.ButtonRadius>
                 </TouchableOpacity>
             }
         </Container.Row>

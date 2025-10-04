@@ -11,6 +11,8 @@ type CardOfferProps = {
 }
 
 const CardOffer = ({promotion, cbChoose}:CardOfferProps) => {
+    const [imageError, setImageError] = React.useState<boolean>(false)
+
     const image = useMemo(()=>{
         let image = null
        
@@ -20,15 +22,20 @@ const CardOffer = ({promotion, cbChoose}:CardOfferProps) => {
                 image = process.env.EXPO_PUBLIC_API_URL + images[0]
             }
         } 
-        console.log('clemclem', image)
+
         return image
    
     },[promotion.restaurant])
     return (
         <TouchableOpacity onPress={() => cbChoose && cbChoose(promotion)}>
-            <ImageBackground style={styles.ticketBackground} source={{uri: image || ''}} resizeMode='cover'>
+            <ImageBackground 
+                style={styles.ticketBackground} 
+                source={image && !imageError ? {uri: image} : require('@/assets/images/background_icon_app.png')} 
+                resizeMode={image  && !imageError ? 'cover' : 'repeat'} 
+                onError={() => setImageError(true)}
+            >
                 <Container.Column gap={70}>
-                    <Text.SubTitle color='#fff' fontSize={18} lineHeight={30} style={{paddingHorizontal:3}}>
+                    <Text.SubTitle color='#fff' fontSize={18} lineHeight={30} style={styles.headerTitle}>
                         {promotion.restaurant?.name}
                     </Text.SubTitle>
                     <Ticket promotion={promotion}/>
@@ -84,7 +91,7 @@ export const Ticket = ({promotion,cbChoose}:CardOfferProps) => {
                 <Container.RowCenterY style={styles.ticketFooter} gap={6}>
                     <Icon.RR color={Colors.primary} name='gift' size={13} />
                     <Text.Paragraphe fontFamily='Urbanist-Medium' fontSize={11} lineHeight={16}>
-                        Encores 
+                        Encore
                         <Text.Paragraphe fontFamily='Urbanist-Medium' fontSize={11} lineHeight={16} color={Colors.primary}>
                             {' '}
                             {expire_format_date}
@@ -130,6 +137,12 @@ const styles = StyleSheet.create({
         height: 37,
         borderRadius: 24,
 
+    },
+    headerTitle: {
+        paddingHorizontal:3,
+        textShadowColor: 'rgba(0,0,0,0.4)',
+        textShadowOffset: { width: 0, height: 2 },
+        textShadowRadius: 4,
     },
     button: {
         width: '100%',

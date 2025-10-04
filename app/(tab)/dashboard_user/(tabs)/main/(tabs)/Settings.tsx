@@ -27,6 +27,16 @@ interface HomeScreenProps {
   route: RouteProp<RootStackParamList, 'Settings'>;
 }
 
+const ID_USER_AUTORIZED_FOR_RESTAURANT_PANNEL = [
+  10, //SMASHED
+  8, //Hom'resto
+  2, //Clément
+  5, //Yazid
+  7, //John
+  33,//lafiasso
+  34,//yaya
+];
+
 const SettingsScreen = ({ navigation, route }: HomeScreenProps) => {
 
   //redux
@@ -85,13 +95,16 @@ const SettingsScreen = ({ navigation, route }: HomeScreenProps) => {
                     </TouchableOpacity>
                 </Container.Column>
                 <Container.Column gap={15} style={styles.containerButton}>
-                  <TouchableOpacity onPress={handlerSwtichMode}>
-                    <Button.ButtonLandingPage>Mode entreprise</Button.ButtonLandingPage>
-                  </TouchableOpacity>
+                  {
+                    user?.id && ID_USER_AUTORIZED_FOR_RESTAURANT_PANNEL.includes(user.id) &&
+                    <TouchableOpacity onPress={handlerSwtichMode}>
+                      <Button.ButtonLandingPageOutline>Mode entreprise</Button.ButtonLandingPageOutline>
+                    </TouchableOpacity>
+                  }
                   
-                  <TouchableOpacity onPress={handlerLogout}>
-                     <Button.ButtonLandingPageOutline>Se déconnecter</Button.ButtonLandingPageOutline>
-                  </TouchableOpacity>
+                    <TouchableOpacity onPress={handlerLogout}>
+                      <Button.ButtonLandingPage>Se déconnecter</Button.ButtonLandingPage>
+                    </TouchableOpacity>
                 </Container.Column>
 
             </Container.Column>

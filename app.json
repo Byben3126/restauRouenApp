@@ -8,11 +8,12 @@
     "scheme": "restorouen",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    
     "ios": {
-      "buildNumber": "2",
+      "buildNumber": "21",
       "supportsTablet": true,
       "config": {
-        "googleMapsApiKey": "AIzaSyBA_2XpvqVm6w1OhdoYNgwzxcPjKP2uas8"
+        "googleMapsApiKey": "AIzaSyA0wwD_66S71eKc5MIhDQ_haUrcLSwMkFQ"
       },
       "entitlements": {
         "aps-environment": "production"
@@ -20,20 +21,33 @@
       "bundleIdentifier": "com.restorouen.app",
       "appleTeamId": "DC49565NCD",
       "infoPlist": {
-        "UIBackgroundModes": ["remote-notification"],
+        "UIBackgroundModes": [
+          "remote-notification",
+          "remote-notification"
+        ],
         "FirebaseAppDelegateProxyEnabled": false,
         "ITSAppUsesNonExemptEncryption": false,
         "NSCameraUsageDescription": "Cette app utilise l'appareil photo pour scanner des codes-barres",
         "NSLocationWhenInUseUsageDescription": "Nous avons besoin de votre localisation pour afficher votre position sur la carte.",
         "NSLocationAlwaysUsageDescription": "Nous avons besoin de votre localisation pour fournir une expérience optimale."
-      }
+      },
+      "runtimeVersion": "1.0.1"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon_app.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.restorouen.app"
+      "package": "com.restorouen.app",
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "runtimeVersion": "1.0.1"
     },
     "web": {
       "bundler": "metro",
@@ -44,8 +58,8 @@
       [
         "react-native-maps",
         {
-          "iosGoogleMapsApiKey": "AIzaSyBA_2XpvqVm6w1OhdoYNgwzxcPjKP2uas8",
-          "androidGoogleMapsApiKey": "AIzaSyBA_2XpvqVm6w1OhdoYNgwzxcPjKP2uas8"
+          "iosGoogleMapsApiKey": "AIzaSyA0wwD_66S71eKc5MIhDQ_haUrcLSwMkFQ",
+          "androidGoogleMapsApiKey": "AIzaSyA0wwD_66S71eKc5MIhDQ_haUrcLSwMkFQ"
         }
       ],
       "expo-router",
@@ -94,9 +108,32 @@
       "router": {
         "origin": false
       },
-
-      "oneSignalAppId": "30ed059c-0092-4d66-8fa5-6d79c481e8ba"
+      "oneSignalAppId": "30ed059c-0092-4d66-8fa5-6d79c481e8ba",
+      "eas": {
+        "build": {
+          "experimental": {
+            "ios": {
+              "appExtensions": [
+                {
+                  "targetName": "OneSignalNotificationServiceExtension",
+                  "bundleIdentifier": "com.restorouen.app.OneSignalNotificationServiceExtension",
+                  "entitlements": {
+                    "com.apple.security.application-groups": [
+                      "group.com.restorouen.app.onesignal"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "projectId": "7ddac047-cf87-40cc-9e86-e3a2c0cd7183"
+      }
     },
-    "owner": "restorouen"
+    "owner": "studiorr",
+
+    "updates": {
+      "url": "https://u.expo.dev/7ddac047-cf87-40cc-9e86-e3a2c0cd7183"
+    }
   }
 }

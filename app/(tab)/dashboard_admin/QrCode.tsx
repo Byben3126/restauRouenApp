@@ -171,9 +171,9 @@ const QrCodeScreen = ({ navigation, route }: QrCodeScreenProps) => {
       // Camera permissions are not granted yet.
       return (
         <View style={QrCodeScreenStyles.container}>
-          <Text.SubTitle style={QrCodeScreenStyles.message}>We need your permission to show the camera</Text.SubTitle>
+          <Text.SubTitle style={QrCodeScreenStyles.message}>Nous avons besoin de votre permission pour utiliser la caméra</Text.SubTitle>
         
-          <TouchableOpacity onPress={requestPermission}><Button.ButtonRadius>Grant permission</Button.ButtonRadius></TouchableOpacity>
+          <TouchableOpacity onPress={requestPermission}><Button.ButtonRadius>Accorder l'autorisation</Button.ButtonRadius></TouchableOpacity>
         </View>
       );
     }

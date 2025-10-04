@@ -7,15 +7,13 @@ import { getTopRestaurants, getLastVisitedCustomersWithRestaurants } from '@/api
 import * as Location from 'expo-location';
 import { getNearByRestaurants } from '@/api/minted/restaurant';
 import * as Types from '@/types';
-
-import { useRouter, router } from 'expo-router';
-import type { Href } from 'expo-router';
-import { RouterParamsList} from '@/types/app/navigation.types';
+import { router } from 'expo-router';
+import { useWebSocket } from '@/context/WebSocket';
 
 import { useNavigation } from '@react-navigation/native';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { TabParamList } from './../_layout';
-
+import * as Updates from 'expo-updates';
 
 const Home = () => {
 
@@ -25,6 +23,7 @@ const Home = () => {
 
   //context
   const TabNavigation = useNavigation<BottomTabNavigationProp<TabParamList>>();
+  const { subscribe, unsubscribe } = useWebSocket();
   // const router = useRouter();
 
   const fetchTopRestaurants = async () => {
@@ -32,16 +31,18 @@ const Home = () => {
     setCustomers(data);
   }
 
-  const fetchLastVisits = async () => {
-     const { data } = await getLastVisitedCustomersWithRestaurants();
-     setLastCustomers(data);
-  }
-
   const fetchSuggestRestaurants = async () => {
+
+      const { data:dataLastCustomers } = await getLastVisitedCustomersWithRestaurants();
+      setLastCustomers(dataLastCustomers);
       try {
         let location = await Location.getCurrentPositionAsync({});
         const {data} = await getNearByRestaurants(location.coords.latitude, location.coords.longitude, 10.0, 3)
-        setSuggestRestaurants(data);
+        console.log("Nearby restaurants:", data, dataLastCustomers);
+        setSuggestRestaurants(data.filter((r:Types.RestaurantData) =>  {
+          console.log('filter', r.id, dataLastCustomers.some((customer:Types.CustomerWithPregress) => customer.restaurant?.id == r.id))
+          return !dataLastCustomers.some((customer:Types.CustomerWithPregress) => customer.restaurant?.id == r.id)
+        }));
 
       } catch (error) {
         console.error("Error fetching location:", error);
@@ -68,10 +69,23 @@ const Home = () => {
     TabNavigation.navigate('(tabs)/Map', { autoFocusInput: true });
   }
 
-  useEffect(() => {
+  const receveidOneLastRestaurantVisited = useCallback((customer: Types.CustomerWithPregress) => {
+    console.log("receveidOneLastRestaurantVisited", customer);
+    setLastCustomers((prev) => [customer, ...prev.filter(c => c.id !== customer.id)].slice(0,3));
     fetchTopRestaurants();
-    fetchLastVisits();
+  }, []);
+
+  const initData = async () => {
+    fetchTopRestaurants();
     fetchSuggestRestaurants();
+  }
+
+  useEffect(() => {
+    initData()
+    const id = subscribe('add_last_restaurant_visited', receveidOneLastRestaurantVisited);
+    return () => {
+      unsubscribe(id);
+    }
   }, []);
 
   return (
@@ -79,6 +93,11 @@ const Home = () => {
       <Header.HeaderMain
         navigation={TabNavigation}
       />
+      {/* <Text.Paragraphe>
+        Version: 1.0.0 {"\n"}
+        Update ID: {Updates.updateId || "none"} {"\n"}
+        Runtime: {Updates.runtimeVersion}
+      </Text.Paragraphe> */}
       <Container.Column flexGrow={1}>
         <Container.View>
           <Input.MainInput 

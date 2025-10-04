@@ -64,18 +64,18 @@ const Restaurant = () => {
       >
         <Container.ColumnCenter style={styles.page}>
           <Image style={[styles.image, {aspectRatio: 194.87/244.49, width: '54%'}]} source={require('@/assets/images/walkthrough_client_1.png')}/>
-          <Text.SubTitle style={styles.subTittle}>{'Boost Customers Loyalty \n with every visit'}</Text.SubTitle>
-          <Text.Paragraphe style={styles.paragraphe}>{'Create meaningful relationships with\n your customers by offering rewards\n they’ll love. It\'s quick, easy, and \n effective'}</Text.Paragraphe>
+          <Text.SubTitle style={styles.subTittle}>{'Augmentez la fidélité de \n vos clients à chaque visite'}</Text.SubTitle>
+          <Text.Paragraphe style={styles.paragraphe}>{'Créez des relations enrichissantes\n avec vos clients en leur offrant des\n récompenses qu\'ils adoreront.\n C\'est rapide, facile et efficace.'}</Text.Paragraphe>
         </Container.ColumnCenter>
         <Container.ColumnCenter style={styles.page}>
           <Image style={[styles.image, {aspectRatio: 261.93/288.1, width: '60%'}]} source={require('@/assets/images/walkthrough_client_2.png')}/>
-          <Text.SubTitle style={styles.subTittle}>{'How it Works'}</Text.SubTitle>
-          <Text.Paragraphe style={styles.paragraphe}>{'Scan a customer’s QR code, add points\n for their visit or purchase, and let them\n unlock rewards while you\n grow your loyal audience'}</Text.Paragraphe>
+          <Text.SubTitle style={styles.subTittle}>{'Comment ça marche'}</Text.SubTitle>
+          <Text.Paragraphe style={styles.paragraphe}>{'Scannez le QR code du client, ajoutez des points pour chaque achat, et offrez-lui des récompenses tout en développant votre clientèle.'}</Text.Paragraphe>
         </Container.ColumnCenter>
         <Container.ColumnCenter style={styles.page}>
           <Image style={[styles.image, {aspectRatio: 261.38/201.33, width: '64%'}]} source={require('@/assets/images/walkthrough_client_3.png')}/>
-          <Text.SubTitle style={styles.subTittle}>{'Insights and Engagement\n at Your Fingertips'}</Text.SubTitle>
-          <Text.Paragraphe style={styles.paragraphe}>{'Track customer activity, reward\n redemptions, and enjoy tools designed\n to bring customers back for more.'}</Text.Paragraphe>
+          <Text.SubTitle style={styles.subTittle}>{'Informations et engagement \nau bout des doigts'}</Text.SubTitle>
+          <Text.Paragraphe style={styles.paragraphe}>{'Suivez l’activité de vos clients,\n les récompenses utilisées, et profitez \n d’outils conçus pour les faire revenir.'}</Text.Paragraphe>
         </Container.ColumnCenter>
       </PagerView>
     

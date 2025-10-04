@@ -15,6 +15,8 @@ import { useNotification } from '@/context/Notification';
 import { updateMyRestaurant } from '@/api/minted/restaurant';
 import { set_restaurant_data } from '@/store/slices/myRestaurant';
 import { useDispatch } from 'react-redux';
+import { getInfoCoords } from '@/api/google';
+import type { InfoCoordsResult } from '@/types/google/adress.types';
 
 type ProfilScreenProps = NativeStackScreenProps<RootStackParamList, 'MainTabs'>;
 
@@ -37,14 +39,28 @@ const ProfilScreen = ({ navigation, route }: ProfilScreenProps) => {
     if (!restaurantData) return
     navigation.navigate('Localisation', {
       async validateCb({navigation, route}, coordinates) {
-        console.log('coordinates',coordinates)
+       
         navigation.goBack()
         setLoader(true)
+
+        const payload:Types.RestaurantUpdate = {
+          latitude: coordinates.latitude,
+          longitude: coordinates.longitude
+        }
+
         try {
-          const {data} = await updateMyRestaurant({
-            latitude: coordinates.latitude,
-            longitude: coordinates.longitude
-          })
+          const res:InfoCoordsResult = await getInfoCoords(coordinates)
+          console.log('res', res)
+          if (res.results && res.results.length && res.results[0].address_components) {
+            payload.country = res.results[0].address_components.find((component) => component.types.includes('country'))?.long_name || 'France'
+            payload.city = res.results[0].address_components.find((component) => component.types.includes('locality'))?.long_name || 'France'
+          }
+        } catch (error) {
+          console.error('Error fetching address info:', error);
+        }
+        console.log('validateCb',payload)
+        try {
+          const {data} = await updateMyRestaurant(payload)
           dispatch(set_restaurant_data(data))          
         } catch (error) {
           newNotification({

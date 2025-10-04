@@ -203,9 +203,10 @@ const MapScreen = () => {
     
     console.log('region.latitudeDelta',region.latitudeDelta, region.longitudeDelta,region.latitude, region.longitude)
 
-    if (region.latitudeDelta <= 0.020547973631856564 && region.longitudeDelta <= 0.01627966761589028) {
+    if (region.latitudeDelta <= 0.13390782489619824 && region.longitudeDelta <= 0.10611288249492645) {
+      
         //charger tout les point dans la zone
-        const {data} = await getNearByRestaurants(region.latitude, region.longitude, 1.0)
+        const {data} = await getNearByRestaurants(region.latitude, region.longitude, 6.0)
         const id = Date.now()
 
         setMarkers(data.map((restaurant:Types.RestaurantData) => ({

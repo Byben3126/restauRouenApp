@@ -3,7 +3,7 @@ import axios from 'axios';
 import { AutocompleteResult, PlaceDetails, InfoCoordsResult } from '@/types/google'
 import { Float } from 'react-native/Libraries/Types/CodegenTypes';
 
-const GOOGLE_MAPS_APIKEY = 'AIzaSyBA_2XpvqVm6w1OhdoYNgwzxcPjKP2uas8'
+const GOOGLE_MAPS_APIKEY = 'AIzaSyA0wwD_66S71eKc5MIhDQ_haUrcLSwMkFQ'
 
 //donne info sur une adress précisse
 export async function getInfoAdress(adress: string) {

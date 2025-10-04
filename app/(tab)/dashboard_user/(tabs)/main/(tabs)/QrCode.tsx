@@ -6,18 +6,25 @@ import QRCode from 'react-native-qrcode-svg';
 import { useFocusEffect } from '@react-navigation/native';
 import { getLinkCodeToken } from '@/api/minted/user';
 import { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs';
-import { TopTabParamList } from '@/app/dashboard_user/index';
+
 import * as Types from '@/types';
 
-type HomeScreenProps = MaterialTopTabScreenProps<TopTabParamList, 'Home'>;
+import { useNavigation } from '@react-navigation/native';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { TabParamList } from './../_layout';
 
-const QrCode = ({ navigation, route }: HomeScreenProps) => {
+
+
+const QrCode = () => {
     let logoFromFile = require('@/assets/images/paypal.png');
 
 
     const user = useSelector((state:Types.Store) => state.user.value);
     
     if (!user) return null;
+
+    //context
+    const TabNavigation = useNavigation<BottomTabNavigationProp<TabParamList>>();
 
     return (
         <SafeAreaView style={{ flex: 1}}>
@@ -44,7 +51,7 @@ const QrCode = ({ navigation, route }: HomeScreenProps) => {
                             // logo={logoFromFile}
                         />
                     </View>
-                    <TouchableOpacity activeOpacity={0.6} onPress={() => navigation.navigate('Offers')}>
+                    <TouchableOpacity activeOpacity={0.6} onPress={() => TabNavigation.navigate('(tabs)/Offers')}>
                         <Button.ButtonLandingPage style={styles.button}>Voir mes offres</Button.ButtonLandingPage>
                     </TouchableOpacity>
                 </Container.ColumnCenter>

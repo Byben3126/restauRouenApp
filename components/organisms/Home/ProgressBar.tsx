@@ -66,8 +66,7 @@ const ProgressBar = ({customers}:ProgressBarProps) => {
           </Text.Paragraphe>
           </>
         </Container.ColumnCenter>
-      )
-      }
+      )}
 
       {customers?.length && 
         <PagerView 
@@ -80,29 +79,32 @@ const ProgressBar = ({customers}:ProgressBarProps) => {
         
         
           {customers.map((customer,index) => (
-            <Container.ColumnCenter gap={10}>
-              <Text.SubTitle fontSize={16} lineHeight={16}>#{index+1} {customer.restaurant?.name}</Text.SubTitle>
-              
-              {
-                customer.progress.closest_reward ? (
-                  <Text.Paragraphe fontFamily='Urbanist-Medium' textAlign='center' fontSize={12} lineHeight={16}>
-                    {`Vous êtes à ${customer.progress.closest_reward.point_required - customer.points} points de votre prochaine récompense : ${customer.progress.closest_reward.name}`}
-                  </Text.Paragraphe>
-                ) : (
-                  
-                  customer.points == 0 ? (
+           
+              <Container.ColumnCenter gap={10} style={{paddingHorizontal:10}}>
+         
+                <Text.SubTitle fontSize={16} lineHeight={16}>#{index+1} {customer.restaurant?.name}</Text.SubTitle>
+                
+                {
+                  customer.progress.closest_reward ? (
                     <Text.Paragraphe fontFamily='Urbanist-Medium' textAlign='center' fontSize={12} lineHeight={16}>
-                      {'Vous avez 0 points, vous ne pouvez pas obtenir de récompense pour le moment'}
+                      {`Vous êtes à ${customer.progress.closest_reward.point_required - customer.points} points de votre prochaine récompense : ${customer.progress.closest_reward.name}`}
                     </Text.Paragraphe>
                   ) : (
-                    <Text.Paragraphe fontFamily='Urbanist-Medium' textAlign='center' fontSize={12} lineHeight={16}>
-                      {'Vous avez accumulé assez de points pour vous \n offrir n\'importe quel article du restaurant.'}
-                    </Text.Paragraphe>
+                    
+                    customer.points == 0 ? (
+                      <Text.Paragraphe fontFamily='Urbanist-Medium' textAlign='center' fontSize={12} lineHeight={16}>
+                        {'Vous avez 0 points, vous ne pouvez pas obtenir de récompense pour le moment'}
+                      </Text.Paragraphe>
+                    ) : (
+                      <Text.Paragraphe fontFamily='Urbanist-Medium' textAlign='center' fontSize={12} lineHeight={16}>
+                        {'Vous avez accumulé assez de points pour vous \n offrir n\'importe quel article du restaurant.'}
+                      </Text.Paragraphe>
+                    )
                   )
-                )
-              }
-          
-            </Container.ColumnCenter>
+                }
+  
+              </Container.ColumnCenter>
+            
           ))}
       
 

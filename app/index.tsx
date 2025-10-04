@@ -19,7 +19,7 @@ const Index = () => {
         //return  <Redirect href="/landing" />;
         // return <Redirect href="/dashboard_admin"/>;
         // return <Redirect href="/dashboard_user"/>;
-        return <Redirect href="/onboarding"/>;
+        // return <Redirect href="/onboarding"/>;
         // return <Redirect href="/landing_admin"/>;
     }else{
         //return <Redirect href="/landing" />;

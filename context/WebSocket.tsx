@@ -2,14 +2,15 @@ import React, { createContext, useContext, ReactNode, useEffect,  useState, useC
 import * as SecureStore from 'expo-secure-store';
 import { AppState, AppStateStatus } from 'react-native';
 
-const WEBSOCKET_URL = 'ws://MacBook-Pro-de-Clement.local:8080/ws';
+const WEBSOCKET_URL = `wss://${process.env.EXPO_PUBLIC_API_URL?.replace(/^https?:\/\//, '')}/ws`;
+console.log("WEBSOCKET_URL",WEBSOCKET_URL)
 
 interface WebSocketProviderProps {
     children: ReactNode
 }
 
 interface WebSocketContextProps {
-  subscribe: (type: string, handler: MessageHandler) => string; // Retourne un ID d'abonnement
+  subscribe: (eventName: string, handler: MessageHandler) => string; // Retourne un ID d'abonnement
   unsubscribe: (subscribeId: string) => void;
   simulateMessage: (type: string, data: Object) => void;
 }
@@ -17,8 +18,8 @@ interface WebSocketContextProps {
 type MessageHandler = (data: any) => void;
 
 type WebSocketMessage = {
-  type: string;
-  data: any; // Vous pouvez remplacer `any` par un type plus spécifique si nécessaire
+  eventName: string;
+  data: any;
 };
 
 const WebSocketContext = createContext<WebSocketContextProps | undefined>(undefined);
@@ -60,13 +61,14 @@ const WebSocketProvider: React.FC<WebSocketProviderProps> = ({ children }) => {
         }
     }, [])
 
-    const subscribe = useCallback((type: string, handler: MessageHandler) => {
-        const subscribeId = `${type}-${idCounter.current++}`; 
+    const subscribe = useCallback((eventName: string, handler: MessageHandler) => {
+        eventName = eventName.replace('-', '_');
+        const subscribeId = `${eventName}-${idCounter.current++}`; 
 
         messageHandlers.current = {
           ...messageHandlers.current,
-          [type]: {
-            ...(messageHandlers.current[type] || {}), 
+          [eventName]: {
+            ...(messageHandlers.current[eventName] || {}), 
             [subscribeId]: handler
           }
         }
@@ -78,14 +80,14 @@ const WebSocketProvider: React.FC<WebSocketProviderProps> = ({ children }) => {
 
     // Fonction pour se désabonner d'un type de message (mémorisée avec useCallback)
     const unsubscribe = useCallback((subscribeId: string) => {
-        const type = subscribeId.split('-')[0]
+        const eventName = subscribeId.split('-')[0]
 
-        const updatedHandlers = { ...messageHandlers.current[type] };
+        const updatedHandlers = { ...messageHandlers.current[eventName] };
         delete updatedHandlers[subscribeId];
 
         messageHandlers.current = {
             ...messageHandlers.current,
-            [type]: updatedHandlers,
+            [eventName]: updatedHandlers,
         };
         console.log("unsubscribe",messageHandlers.current)
     }, []);
@@ -94,15 +96,16 @@ const WebSocketProvider: React.FC<WebSocketProviderProps> = ({ children }) => {
       try {
           console.log("receveidMessage",messageHandlers.current)
           const packet: WebSocketMessage = JSON.parse(event.data);
-          const handlers = Object.values(messageHandlers.current[packet.type] || {});
+          const handlers = Object.values(messageHandlers.current[packet.eventName] || {});
           handlers.forEach((handler) => handler(packet.data));
       } catch (error) {
           console.error('Erreur lors du parsing du message :', error);
       }
     },[])
 
-    const simulateMessage = useCallback((type: string, data:object) => {
-      const handlers = Object.values(messageHandlers.current[type] || {});
+    const simulateMessage = useCallback((eventName: string, data:object) => {
+      eventName = eventName.replace('-', '_');
+      const handlers = Object.values(messageHandlers.current[eventName] || {});
       handlers.forEach((handler) => handler(data));
     },[])
 

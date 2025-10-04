@@ -101,8 +101,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
           if (savedDashboard === 'dashboard_admin') {
             router.replace('/dashboard_admin');
           } else {
-            router.replace('/onboarding/Client');
-            //router.replace('/dashboard_user');
+            router.replace('/dashboard_user');
           }
         }
       }else if(!pathname.startsWith('/landing')){

@@ -77,7 +77,7 @@ const RestaurantRegister = ({navigation}:RegisterProps) => {
                   </Container.Column>
                 </Container.ColumnCenterY>
 
-                <TouchableOpacity activeOpacity={0.6} onPress={()=>router.push("/")}>
+                <TouchableOpacity activeOpacity={0.6} onPress={()=>router.replace("/dashboard_user")}>
                   <Container.RowCenter gap={4}>
                     <Text.Paragraphe color='#111132' fontSize={15} letterSpacing={0.6} lineHeight={15}>Continuer plus tard ? </Text.Paragraphe>
                     <Text.SubTitle color='#111132' fontSize={15} letterSpacing={0.6} lineHeight={15}>Espace client</Text.SubTitle>

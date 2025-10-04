@@ -33,11 +33,11 @@
       </dict>
     </array>
     <key>CFBundleVersion</key>
-    <string>2</string>
+    <string>21</string>
     <key>FirebaseAppDelegateProxyEnabled</key>
     <false/>
     <key>GMSApiKey</key>
-    <string>AIzaSyBA_2XpvqVm6w1OhdoYNgwzxcPjKP2uas8</string>
+    <string>AIzaSyA0wwD_66S71eKc5MIhDQ_haUrcLSwMkFQ</string>
     <key>ITSAppUsesNonExemptEncryption</key>
     <false/>
     <key>LSMinimumSystemVersion</key>
@@ -71,6 +71,7 @@
     </array>
     <key>UIBackgroundModes</key>
     <array>
+      <string>remote-notification</string>
       <string>remote-notification</string>
     </array>
     <key>UILaunchStoryboardName</key>

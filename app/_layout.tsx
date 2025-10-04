@@ -34,7 +34,7 @@ SplashScreen.setOptions({
 
 const Layout = () => {
 
-
+  console.log("Layout loaded", __DEV__);
   const [loadedFont] = useFonts({
       'Urbanist-Bold': require('@/assets/fonts/Urbanist/Urbanist-Bold.ttf'),
       'Urbanist-SemiBold': require('@/assets/fonts/Urbanist/Urbanist-SemiBold.ttf'),

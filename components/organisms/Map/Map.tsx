@@ -132,9 +132,10 @@ const Map = ({ latitude, longitude, changeRegion, lock=false, marker = null, mar
             tracksViewChanges= {false}
             onPress={marker.onPress}
             onDeselect={marker.onDeselect}
-            pinColor={marker.pinColor}>
+            pinColor={marker.pinColor}
+            >
              
-              <Image source={pinImage} style={{width:30, height: 'auto',aspectRatio:88/112}}/>
+            {marker.image && <Image source={marker.image} style={{width:34, height: 'auto',aspectRatio:88/112}}/>}
           </Marker>
           
         }
@@ -153,7 +154,7 @@ const Map = ({ latitude, longitude, changeRegion, lock=false, marker = null, mar
             
           >
             <Container.RowCenterY gap={8} >
-              <Image source={pinImage} style={{width:30, height: 'auto',aspectRatio:88/112}}/>
+              <Image source={pinImage} style={{width:34, height: 'auto',aspectRatio:88/112}}/>
               
               <Text.SubTitle 
                 fontSize={14}

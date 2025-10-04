@@ -57,16 +57,18 @@ const GivePointScreen = ({ navigation, route }: GivePointScreenProps) => {
       <Container.ColumnCenter flexGrow={1} gap={30}>
         <Container.ColumnCenter gap={10}>
           <Text.SubTitle fontSize={24} lineHeight={24}>
-            Give a point
+            Envoi de point
           </Text.SubTitle>
           <Container.View>
-            <Text.Paragraphe fontFamily='Urbanist-Medium' textAlign='center' fontSize={14} lineHeight={16}>Please enter the number of points you want to give to this user.</Text.Paragraphe>
+            <Text.Paragraphe fontFamily='Urbanist-Medium' textAlign='center' fontSize={14} lineHeight={16}>Veuillez saisir le nombre de points que vous souhaitez donner à cet utilisateur.
+
+</Text.Paragraphe>
           </Container.View>
         </Container.ColumnCenter>
         <Container.Column gap={20}>
           <Input.MainInput
             placeholderTextColor={Colors.grey}
-            placeholder="Enter the number of points"
+            placeholder="Entrez le nombre de points"
             style={styles.input}
             keyboardType="number-pad"
             maxLength={3}
